@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <style>
+        body{
+            width: 30%;
+            margin: auto;
+            box-shadow: #FFCB9B 0px 2px 8px 0px;;
+        }
+        button{
+            margin: auto;
+            margin-bottom: 10px;
+            width: 120px;
+            height: 40px;
+            background-color: #106466;
+            color: #D2E9E3;
+            font-size: 18px;
+            transition: .5s;
+        }
+        button:hover{
+            width: 150px;
+            height: 40px;
+            font-weight: 700;
+            background-color: #D2E9E3;
+            color: #106466;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #userDetails{
+            display: grid;
+            gap: 10px;
+            background-color: #ffcb9b77;
+        }
+        .userDiv{
+            display: flex;
+            background-color: #10656648;
+            border-radius: 15px;
+            box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+        }
+        .userDiv:hover{
+            transition: .5s;
+            background-color: #D2E9E3;
+            cursor: pointer;
+            width: 380px; 
+        }
+        img{
+            margin-left: 10px;
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+        }
+        .discription{
+            margin-left: 25px;
+            display: grid;
+        }
+        .discription>span:nth-child(1)
+        {
+            margin-top: 10px;
+            color:  #2C3532;
+            font-size: 18px;
+            font-weight: 800;
+        }
+        .discription>span:nth-child(2)
+        {
+            color:  #2C3532;
+            font-size: 18px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="display()">Fatch User</button>
+    <div id="userDetails">
+    </div>
+</body>
+<script>
+    let userDetails=document.querySelector("#userDetails")
+    function display()
+    {
+        fetch(`https://reqres.in/api/users`)
+        .then(response => response.json())
+        .then(details => {
+            let output='';
+            details.data.forEach((ele, index)=> {
+                output+=`<div class="userDiv">
+            <img src="${ele.avatar}" alt="">
+            <div class="discription">
+                <span>Name: ${ele.first_name} ${ele.last_name}</span>
+                <span>Email: ${ele.email}</span>
+            </div>
+        </div>`
+            });
+            userDetails.innerHTML=output;
+        })
+    }
+</script>
+</html>
