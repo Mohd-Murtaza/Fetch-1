@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDB</title>
+    <link rel="icon" href="https://img.icons8.com/?size=160&id=9pYYRMkYN2BY&format=png">
+    <style>
+        body{
+            margin: 0%;
+        }
+        #navbarDiv{
+            margin: auto;
+            margin: 0%;
+            max-width: 100%;
+            height: 100px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            display: flex;
+            justify-content: center;
+        }
+        .brandLogo{
+            border-radius: 5%;
+            box-shadow: rgba(21, 161,247) 5px 3px 8px;
+        }
+        #searchInput{
+            margin-top: auto;
+            margin-bottom: auto;
+            height: 30px;
+            width: 500px;
+            margin-left: 100px;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 5px;
+            transition: .5s;
+        }
+        #searchInput:hover{
+            background-color: rgba(129, 202, 248, 0.171);
+            box-shadow: rgba(21, 160, 247, 0.678) 5px 3px 8px;
+        }
+        .searchButton{
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-left: 10px;
+            border: none;
+            height: 35px;
+            width: 100px;
+            font-weight: 700;
+            font-size: 18px;
+            text-align: center;
+            transition: .3s;
+            background-color: rgba(21, 161,247);
+            color: white;
+            border-radius: 5px;
+            background: rgb(2,0,36);
+            background: linear-gradient(90deg, rgb(21,187,254) 0%, rgb(23, 23, 194) 100%, rgb(19,83,193) 100%);
+        }
+        .searchButton:hover{
+            cursor: pointer;
+            color: rgba(9,9,121,1);
+            background: white;
+            border: 1px solid black;
+            box-shadow: rgba(21, 161,247) 5px 3px 8px;
+        }
+        #moviesDiv{
+            margin: auto;
+            width: 90%;
+            height: auto;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            display: grid;
+            grid-template-columns: repeat(4, 23.9%);
+            gap: 20px;
+        }
+        #movieCard{
+            border: 3px solid black;
+            box-shadow: rgba(21, 160, 247, 0.678) 5px 3px 8px;
+            transition: .5s;
+        }
+        #movieCard:hover{
+            cursor: pointer;
+            scale: 1.05;
+        }
+        .movieName:hover{
+            white-space: wrap;
+            overflow: none;
+            text-overflow: none;
+        }
+        .moviePoster{
+            width: 100%;
+            height: 450px;
+        }
+        .movieName, .movieYear{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbarDiv">
+        <img class="brandLogo" src="https://img.icons8.com/?size=160&id=9pYYRMkYN2BY&format=png" alt="">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button class="searchButton" onclick="search()">Search</button>
+    </div>
+    <div id="moviesDiv"></div>
+</body>
+<script>
+    const apiKey="5f9edd1"
+    let input=document.querySelector("#searchInput");
+    let moviesDiv=document.getElementById("moviesDiv");
+    async function search(){
+        try {
+            let fetchData=await fetch (`http://www.omdbapi.com/?s=${input.value}&apikey=${apiKey}`)
+            let allData=await fetchData.json();
+            console.log(allData)
+            if(!input.value)
+            {
+                alert("Please Enter Movie Name")
+                moviesDiv.innerHTML=``
+            }
+            else
+            {
+                let output=``;
+                allData.Search.forEach(movie => {
+                    output+=`<div id="movieCard">
+                               <img class="moviePoster" src="${movie.Poster}" alt="Movie-Poster">
+                               <h2 class="movieName">${movie.Title}</h2>
+                               <h2 class="movieYear">Year:- ${movie.Year}</h2>
+                             </div>`
+                });
+                moviesDiv.innerHTML=output;
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+</script>
+</html>
